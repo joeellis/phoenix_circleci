@@ -6,8 +6,6 @@ jobs:
     docker:
       - image: joeellis/elixir-phoenix-node:1.0
         environment:
-          - PGHOST=localhost
-          - PGUSER=phoenix
           - MIX_ENV=test
       - image: postgres:9.6.2-alpine
         environment:
@@ -17,7 +15,6 @@ jobs:
     working_directory: ~/repo
     steps:
       - checkout
-      - run: mix local.hex --force && mix local.rebar --force
       - restore_cache:
           keys:
             - v2-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
