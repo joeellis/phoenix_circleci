@@ -4,7 +4,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/elixir:1.4.2-browsers
+      - image: joeellis/elixir-phoenix-node:1.0
         environment:
           - PGHOST=localhost
           - PGUSER=phoenix
@@ -45,20 +45,20 @@ jobs:
           paths: "_build"
       - restore_cache:
           keys:
-            - v1-yarn-cache-{{ .Branch }}-{{ checksum "assets/yarn.lock" }}
-            - v1-yarn-cache-{{ .Branch }}
-            - v1-yarn-cache
+            - v1-npm-cache-{{ .Branch }}-{{ checksum "assets/npm.lock" }}
+            - v1-npm-cache-{{ .Branch }}
+            - v1-npm-cache
       - run:
           working_directory: assets
-          command: yarn install && yarn test
+          command: npm install && npm test
       - save_cache:
-          key: v1-yarn-cache-{{ .Branch }}-{{ checksum "assets/yarn.lock" }}
+          key: v1-npm-cache-{{ .Branch }}-{{ checksum "assets/npm.lock" }}
           paths: assets/node_modules
       - save_cache:
-          key: v1-yarn-cache-{{ .Branch }}
+          key: v1-npm-cache-{{ .Branch }}
           paths: assets/node_modules
       - save_cache:
-          key: v1-yarn-cache
+          key: v1-npm-cache
           paths: assets/node_modules
       - run: mix ecto.create && mix ecto.migrate
       - run: mix phoenix.digest
