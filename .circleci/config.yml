@@ -20,45 +20,45 @@ jobs:
       - run: mix local.hex --force && mix local.rebar --force
       - restore_cache:
           keys:
-            - v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
-            - v1-mix-cache-{{ .Branch }}
-            - v1-mix-cache
+            - v2-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+            - v2-mix-cache-{{ .Branch }}
+            - v2-mix-cache
       - restore_cache:
           keys:
-            - v1-build-cache-{{ .Branch }}
-            - v1-build-cache
+            - v2-build-cache-{{ .Branch }}
+            - v2-build-cache
       - run: mix do deps.get, compile
       - save_cache:
-          key: v1-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+          key: v2-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
           paths: "deps"
       - save_cache:
-          key: v1-mix-cache-{{ .Branch }}
+          key: v2-mix-cache-{{ .Branch }}
           paths: "deps"
       - save_cache:
-          key: v1-mix-cache
+          key: v2-mix-cache
           paths: "deps"
       - save_cache:
-          key: v1-build-cache-{{ .Branch }}
+          key: v2-build-cache-{{ .Branch }}
           paths: "_build"
       - save_cache:
-          key: v1-build-cache
+          key: v2-build-cache
           paths: "_build"
       - restore_cache:
           keys:
-            - v1-yarn-cache-{{ .Branch }}-{{ checksum "assets/yarn.lock" }}
-            - v1-yarn-cache-{{ .Branch }}
-            - v1-yarn-cache
+            - v2-yarn-cache-{{ .Branch }}-{{ checksum "assets/yarn.lock" }}
+            - v2-yarn-cache-{{ .Branch }}
+            - v2-yarn-cache
       - run:
           working_directory: assets
           command: yarn install && yarn test
       - save_cache:
-          key: v1-yarn-cache-{{ .Branch }}-{{ checksum "assets/yarn.lock" }}
+          key: v2-yarn-cache-{{ .Branch }}-{{ checksum "assets/yarn.lock" }}
           paths: assets/node_modules
       - save_cache:
-          key: v1-yarn-cache-{{ .Branch }}
+          key: v2-yarn-cache-{{ .Branch }}
           paths: assets/node_modules
       - save_cache:
-          key: v1-yarn-cache
+          key: v2-yarn-cache
           paths: assets/node_modules
       - run: mix ecto.create && mix ecto.migrate
       - run: mix phoenix.digest
